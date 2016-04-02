@@ -83,7 +83,8 @@
 #include <linux/sensors_ftm.h>
 #define	DEBUG	1
 
-#define	G_MAX		17000
+#define	G_MAX		400000 /* 2^15 * SENSITIVITY_16G +
+				  some offset for calibration */
 
 
 #define SENSITIVITY_2G		1	/**	mg/LSB	*/
