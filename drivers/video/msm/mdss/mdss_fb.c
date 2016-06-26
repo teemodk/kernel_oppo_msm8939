@@ -854,6 +854,8 @@ static DEVICE_ATTR(always_on, S_IRUGO | S_IWUSR | S_IWGRP,
 static DEVICE_ATTR(lcdoff, S_IRUGO, mdss_mdp_lcdoff_event, NULL);
 static DEVICE_ATTR(lpm, S_IRUGO|S_IWUSR, NULL, mdss_set_low_power_mode);
 static DEVICE_ATTR(hbm, S_IRUGO|S_IWUSR, NULL, mdss_set_hbm);
+// Also export hbm as sre, as this is what user space expects
+static DEVICE_ATTR(sre, S_IRUGO|S_IWUSR, NULL, mdss_set_hbm);
 #endif /*VENDOR_EDIT*/
 #ifdef VENDOR_EDIT
 /* YongPeng.Yi@SWDP.MultiMedia, 2015/05/19  Add for set cabc START */
@@ -879,6 +881,7 @@ static struct attribute *mdss_fb_attrs[] = {
 	&dev_attr_lcdoff.attr,
 	&dev_attr_lpm.attr,
 	&dev_attr_hbm.attr,
+	&dev_attr_sre.attr,
 	&dev_attr_closebl.attr,
 	&dev_attr_cabc.attr,
 #endif /*VENDOR_EDIT*/
@@ -1047,13 +1050,9 @@ static int mdss_fb_probe(struct platform_device *pdev)
 
 #ifdef VENDOR_EDIT
 /* YongPeng.Yi@SWDP.MultiMedia, 2015/03/12  Add for 15009 START */
-#ifndef OPPO_CMCC_TEST
-	#ifndef OPPO_CU_TEST
-		if(is_project(OPPO_15009)){
-			memset(phys_to_virt(0x83200000 + 1080*720*3), 0x00, 200*720*3);
-		}
-	#endif
-#endif
+	if(is_project(OPPO_15009)){
+		memset(phys_to_virt(0x83200000 + 1080*720*3), 0x00, 200*720*3);
+	}
 /* YongPeng.Yi@SWDP.MultiMedia END */
 #endif /*VENDOR_EDIT*/
 
